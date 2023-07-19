@@ -270,19 +270,34 @@ elseif($_GET['aksi']=='proseseditdaftar'){
     }
 }
 
-elseif($_GET['aksi']=='pagdaftar'){ 
-echo"
-<div class='box-tools'>
-                    <ul class='pagination pagination-sm no-margin pull-right'>
-                      <li><a href='#'>&laquo;</a></li>";
-                       $tebaru=mysqli_query($koneksi,' SELECT * FROM mhs ');
-while ($t=mysqli_fetch_array($tebaru)){	
-                    echo"  <li><a href='data_mhs.php?npm_mhs=$t[npm_mhs]'>$t[npm_mhs]';?></a></li>";
-					  }
-                     echo" <li><a href='#'>&raquo;</a></li>
-                    </ul>
-                  </div>
+elseif($_GET['aksi']=='logindaftar'){ 
+$npm_mhs = $_POST['npm_mhs'];
+$pass_mhs = md5($_POST['pass_mhs']);
+	$login = mysqli_query($koneksi, "SELECT * FROM mhs WHERE npm_mhs='$npm_mhs' AND pass_mhs='$pass_mhs'");
+	$cek = mysqli_num_rows($login);
+	if($cek > 0){
+		session_start();
+		$data = mysqli_fetch_assoc($login);
+		$_SESSION['id_mhs'] = $data['id_mhs'];
+		$_SESSION['nama_mhs'] = $data['nama_mhs'];
+		$_SESSION['npm_mhs'] = $data['npm_mhs'];
+			 echo "<script>window.alert('login berhasil');
+        window.location=('proses.php?aksi=haldaftar&npm_mhs=$_SESSION[npm_mhs]')</script>";
+	}else{
+		 echo "<script>window.alert('password salah');
+        window.location=('index.php')</script>";
+	}
 
-";
-} 
+ 
+}
+elseif($_GET['aksi']=='logoutndaftar'){
+session_destroy();
+echo "<script>window.alert('ada keluar halaman');
+window.location=('index.php')</script>";
+}
+elseif($_GET['aksi']=='resetmhs'){
+  mysqli_query($koneksi,"UPDATE mhs SET status_mhs='new'");
+  echo "<script>window.alert('data di reset');
+  window.location=('ajak.php')</script>";
+  }
 ?>

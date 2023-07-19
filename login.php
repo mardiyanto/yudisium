@@ -45,6 +45,8 @@
         
         <form action="periksa_login.php" method="post">
           <div class="form-group has-feedback">
+            <input type="hidden" class="form-control" name="sebagai" value="administrator">
+            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>  
             <input type="text" class="form-control" name="username" placeholder="USERNAME">
             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
           </div>
@@ -52,15 +54,7 @@
             <input type="password" class="form-control" name="password" placeholder="Password">
             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
           </div>
-          <div class="form-group has-feedback">
-          <select class="form-control" name="sebagai" required="required">
-            <option value="">- Pilih</option>
-            <option value="administrator">ADMIN</option>
-            <option value="kasir">LAIN</option>
-            <option value="pimpinan">lain 1</option>
-          </select>
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-          </div>
+         
 
             <div class="col-xs-4">
               <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>

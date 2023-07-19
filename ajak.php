@@ -36,7 +36,7 @@ include "koneksi.php";
         <nav class="navbar navbar-static-top">
           <div class="container">
             <div class="navbar-header">
-              <a href="index.php" class="navbar-brand"><b>Admin</b>LTE</a>
+              <a href="ajak.php" class="navbar-brand"><b>Admin</b>LTE</a>
               <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                 <i class="fa fa-bars"></i>
               </button>
@@ -46,11 +46,35 @@ include "koneksi.php";
             <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
               <ul class="nav navbar-nav">
               <?php
-        $tebaru = mysqli_query($koneksi, "SELECT * FROM mhs WHERE status_mhs='new'  LIMIT 5");
-        while ($t = mysqli_fetch_array($tebaru)) {
-            echo "<li><a href='#' class='pagination-link' data-npm='" . $t['npm_mhs'] . "'>" . $t['npm_mhs'] . "(" . $t['nama_mhs'] . ")</a></li>";
-        }
-        ?>
+$limit = 3; // Jumlah data yang ditampilkan per halaman
+$offset = isset($_GET['offset']) ? $_GET['offset'] : 0; // Mengambil offset dari parameter GET
+$prevOffset = $offset - $limit; // Hitung offset untuk data sebelumnya
+
+if ($prevOffset >= 0) {
+    echo "<li><a href='?offset=$prevOffset'>Sebelumnya</a></li>";
+}
+$query = "SELECT * FROM mhs WHERE status_mhs = 'new' LIMIT $limit OFFSET $offset";
+$result = mysqli_query($koneksi, $query);
+
+while ($t = mysqli_fetch_array($result)) {
+    echo "<li><a href='#' class='pagination-link' data-npm='" . $t['npm_mhs'] . "'>" . $t['npm_mhs'] . "(" . $t['nama_mhs'] . ")</a></li>";
+}
+?>
+
+
+<!-- Tampilkan tombol Next -->
+<?php
+$nextOffset = $offset + $limit; // Hitung offset untuk data selanjutnya
+$queryCount = "SELECT COUNT(*) as total FROM mhs WHERE status_mhs = 'new'";
+$resultCount = mysqli_query($koneksi, $queryCount);
+$rowCount = mysqli_fetch_assoc($resultCount);
+$totalData = $rowCount['total'];
+
+if ($nextOffset < $totalData) {
+    echo "<li><a href='?offset=$nextOffset'>Next</a></li>";
+}
+?>
+
 
               </ul>
 
@@ -65,20 +89,17 @@ include "koneksi.php";
         <div class="container">
           <!-- Content Header (Page header) -->
           <section class="content-header">
-            <h1>
-              SLIDE YUDISIUM DAN WISUDA
-              <small>Example 2.0</small>
+            <h1 class="text-center">
+              PESERTA YUDISIUM
             </h1>
-            <ol class="breadcrumb">
-              <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-              <li><a href="#">Layout</a></li>
-              <li class="active">Top Navigation</li>
-            </ol>
+            
           </section>
 
           <!-- Main content -->
           <section class="content">
-
+          <a class='btn btn-info' href='proses.php?aksi=resetmhs'>
+                               RESET SEMUA DATA
+                            </a><br>
 
 <div id="data-mahasiswa">
     <!-- Tempat untuk menampilkan data mahasiswa -->
@@ -108,6 +129,7 @@ include "koneksi.php";
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
     $(document).ready(function() {
         // Mengatur event click untuk setiap tautan pagination
         $(document).on('click', '.pagination-link', function(e) {

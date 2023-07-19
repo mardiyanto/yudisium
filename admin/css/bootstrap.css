@@ -6755,4 +6755,29 @@ button.close {
     display: none !important;
   }
 }
+
+/* Styling untuk container slider */
+.slider-container {
+  display: flex;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+/* Styling untuk setiap item dalam slider */
+.slider-item {
+  flex-shrink: 0;
+  width: 400px; /* Sesuaikan lebar sesuai kebutuhan */
+  margin-right: 20px; /* Jarak antar item */
+  transition: margin-right 0.3s ease-in-out;
+}
+
+/* Styling untuk tombol navigasi slider */
+.prev-btn,
+.next-btn {
+  background-color: #f1f1f1;
+  padding: 10px 15px;
+  cursor: pointer;
+  margin: 10px;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
