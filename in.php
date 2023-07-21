@@ -300,6 +300,19 @@ elseif($_GET['aksi']=='resetmhs'){
   echo "<script>window.alert('data di reset');
   window.location=('ajak.php')</script>";
 }
+elseif($_GET['aksi']=='listmhs'){
+  $tebaru=mysqli_query($koneksi," SELECT * FROM mhs");
+  $t=mysqli_fetch_array($tebaru);
+echo"
+<div class='row'>
+  <div class='col-md-12'>
+      <div class='box box-widget'>
+      <a  class='btn btn-primary btn-sm'>Small button</a>
+      <a  class='btn btn-success btn-sm'>Small button</a>
+      </div>
+  </div>
+</div>";
+}
 elseif($_GET['aksi']=='detailmhs'){
   $tebaru=mysqli_query($koneksi," SELECT * FROM mhs WHERE npm_mhs=$_GET[npm_mhs] ");
   $t=mysqli_fetch_array($tebaru);
