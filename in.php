@@ -300,30 +300,58 @@ elseif($_GET['aksi']=='resetmhs'){
   echo "<script>window.alert('data di reset');
   window.location=('ajak.php')</script>";
 }
+elseif($_GET['aksi']=='resetmhspg'){
+  mysqli_query($koneksi,"UPDATE mhs SET status_mhs='new'");
+  echo "<script>window.alert('data di reset');
+  window.location=('proses.php?aksi=listmhs')</script>";
+}
 elseif($_GET['aksi']=='listmhs'){
-  $tebaru=mysqli_query($koneksi," SELECT * FROM mhs");
-  $t=mysqli_fetch_array($tebaru);
-echo"
+  $npm_mhs = $_GET['npm_mhs'];
+  mysqli_query($koneksi,"UPDATE tampilmhs SET npm_mhs='$npm_mhs' WHERE id_mhs='1'");
+  mysqli_query($koneksi,"UPDATE mhs SET status_mhs='udah' WHERE npm_mhs='$npm_mhs'");
+  $no=0;
+  $sql=mysqli_query($koneksi," SELECT * FROM mhs ORDER BY id_mhs ASC");
+echo"<a class='btn btn-info' href='proses.php?aksi=resetmhspg'>
+RESET SEMUA DATA
+</a><br><br>
 <div class='row'>
   <div class='col-md-12'>
-      <div class='box box-widget'>
-      <a  class='btn btn-primary btn-sm'>Small button</a>
-      <a  class='btn btn-success btn-sm'>Small button</a>
-      </div>
+      <div class='box box-widget'>";
+      while ($t=mysqli_fetch_array($sql)){	
+        $no++;
+        if($t[status_mhs]=='new'){
+ echo" <a href='proses.php?aksi=detailmhs&npm_mhs=$t[npm_mhs]' class='btn btn-success'>|$no| $t[npm_mhs] $t[nama_mhs] </a> "; 
+      } else{ 
+        echo"<a href='proses.php?aksi=detailmhs&npm_mhs=$t[npm_mhs]' class='btn btn-danger'>|$no| $t[npm_mhs] $t[nama_mhs]</a>"; 
+       } 
+    }
+     echo" </div>
   </div>
 </div>";
 }
 elseif($_GET['aksi']=='detailmhs'){
-  $tebaru=mysqli_query($koneksi," SELECT * FROM mhs WHERE npm_mhs=$_GET[npm_mhs] ");
-  $t=mysqli_fetch_array($tebaru);
-echo"
+  $npm_mhs = $_GET['npm_mhs'];
+  mysqli_query($koneksi,"UPDATE tampilmhs SET npm_mhs='$npm_mhs' WHERE id_mhs='1'");
+  mysqli_query($koneksi,"UPDATE mhs SET status_mhs='udah' WHERE npm_mhs='$npm_mhs'");
+  $no=0;
+  $sql=mysqli_query($koneksi," SELECT * FROM mhs ORDER BY id_mhs ASC");
+echo"<a class='btn btn-info' href='proses.php?aksi=resetmhspg'>
+RESET SEMUA DATA
+</a><br><br>
 <div class='row'>
   <div class='col-md-12'>
-      <div class='box box-widget'>
-      <a  class='btn btn-primary btn-sm'>Small button</a>
-      <a  class='btn btn-success btn-sm'>Small button</a>
-      </div>
+      <div class='box box-widget'>";
+      while ($t=mysqli_fetch_array($sql)){	
+        $no++;
+        if($t[status_mhs]=='new'){
+ echo" <a href='proses.php?aksi=listmhs&npm_mhs=$t[npm_mhs]' class='btn btn-success'>|$no| $t[npm_mhs] $t[nama_mhs] </a>"; 
+      } else{ 
+        echo"<a href='proses.php?aksi=listmhs&npm_mhs=$t[npm_mhs]' class='btn btn-danger'>|$no| $t[npm_mhs] $t[nama_mhs]</a>"; 
+       } 
+    }
+     echo" </div>
   </div>
 </div>";
 }
+
 ?>

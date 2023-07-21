@@ -32,7 +32,14 @@ $t=mysqli_fetch_array($tebaru);
                   <div class='row no-gutters'>
                     <div class='col-md-6'>
                     <div class='container'><br>
-                      <img class='img-thumbnail' width='350' height='450' src='foto/foto_calon/" . $row['foto_mhs'] . "' alt=''>
+                    ";
+    if ($row['foto_mhs'] != "") {
+        echo "<img class='img-thumbnail' width='350' height='450' src='foto/foto_calon/" . $row['foto_mhs'] . "' alt=''>";
+    } else {
+        echo "<img class='img-thumbnail' width='350' height='450' src='mhs.PNG' alt=''>";
+    }
+    echo"
+                      
                      </div>
                     </div>
                     <div class='col-md-6'>
